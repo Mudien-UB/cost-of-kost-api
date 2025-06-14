@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,6 +38,9 @@ public class Users {
 
     @Column(name = "update_time")
     private LocalDateTime updateTime;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Expense>  expenseList;
 
     @PrePersist
     public void prePersist() {
