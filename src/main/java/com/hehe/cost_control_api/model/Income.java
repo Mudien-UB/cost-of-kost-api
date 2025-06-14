@@ -7,21 +7,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "expense")
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "income")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Expense {
+public class Income {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "reason", length = 100, nullable = false, updatable = false)
-    private String reason;
+    @Column(name = "source", length = 100, nullable = false, updatable = false)
+    private String source;
 
     @Column(name = "amount", nullable = false, updatable = false)
     private Double amount;
@@ -29,8 +29,8 @@ public class Expense {
     @Column(name = "note", length = 200)
     private String note;
 
-    @Column(name = "expense_date", nullable = false, updatable = false)
-    private LocalDate expenseDate;
+    @Column(name = "income_date", nullable = false, updatable = false)
+    private LocalDate incomeDate;
 
     @Column(name = "create_time", nullable = false, updatable = false)
     private LocalDateTime createTime;
@@ -59,5 +59,7 @@ public class Expense {
     public void preUpdate() {
         this.updateTime = LocalDateTime.now();
     }
+
+
 
 }

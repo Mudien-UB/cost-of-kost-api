@@ -20,7 +20,7 @@ public record ExpenseResponse(
                 expense.getReason(),
                 expense.getAmount(),
                 expense.getNote() == null ? null : expense.getNote(),
-                expense.getDateExpense()
+                expense.getExpenseDate()
         );
     }
 

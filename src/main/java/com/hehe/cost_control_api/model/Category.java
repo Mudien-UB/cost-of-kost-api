@@ -30,6 +30,9 @@ public class Category {
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Expense> expenseList;
 
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Income>  incomeList;
+
     @Column(name = "create_time")
     private LocalDateTime createTime;
 

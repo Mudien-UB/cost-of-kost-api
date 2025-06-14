@@ -40,7 +40,10 @@ public class Users {
     private LocalDateTime updateTime;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Expense>  expenseList;
+    private List<Expense> expenseList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Income> incomeList;
 
     @PrePersist
     public void prePersist() {
