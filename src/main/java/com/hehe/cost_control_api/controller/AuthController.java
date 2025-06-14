@@ -2,6 +2,7 @@ package com.hehe.cost_control_api.controller;
 
 import com.hehe.cost_control_api.dto.request.AuthRequest;
 import com.hehe.cost_control_api.dto.request.UserRequest;
+import com.hehe.cost_control_api.dto.response.AuthResponse;
 import com.hehe.cost_control_api.model.Users;
 import com.hehe.cost_control_api.service.AuthService;
 import com.hehe.cost_control_api.service.UserService;
@@ -28,7 +29,7 @@ public class AuthController {
             return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "invalid credentials", null);
         }
 
-        return BaseResponseUtil.buildResponse(HttpStatus.OK, "login success", token);
+        return BaseResponseUtil.buildResponse(HttpStatus.OK, "login success", AuthResponse.of(token));
     }
 
     @PostMapping("/register")
@@ -47,7 +48,7 @@ public class AuthController {
 
         String token = authService.login(user.getUsername(), userRequest.getPassword());
 
-        return BaseResponseUtil.buildResponse(HttpStatus.OK, "register success", token);
+        return BaseResponseUtil.buildResponse(HttpStatus.OK, "register success", AuthResponse.of(token));
 
     }
 
