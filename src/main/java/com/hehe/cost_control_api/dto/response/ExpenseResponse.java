@@ -6,6 +6,7 @@ import com.hehe.cost_control_api.model.Expense;
 import java.time.LocalDate;
 
 public record ExpenseResponse(
+        String id,
         String categoryName,
         String reason, Double amount,
         String note,
@@ -15,7 +16,11 @@ public record ExpenseResponse(
 ) {
 
     public static ExpenseResponse of(Expense expense) {
+        if (expense == null) {
+            return null;
+        }
         return new ExpenseResponse(
+                expense.getId().toString(),
                 expense.getCategory().getName(),
                 expense.getReason(),
                 expense.getAmount(),

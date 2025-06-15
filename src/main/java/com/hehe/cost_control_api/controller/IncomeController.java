@@ -79,7 +79,7 @@ public class IncomeController {
 
         IncomeSortType sortType = switch (sortBy) {
             case "amount" -> IncomeSortType.AMOUNT;
-            case "crincomeme" -> IncomeSortType.CREATE_TIME;
+            case "create_time" -> IncomeSortType.CREATE_TIME;
             case "income_date" -> IncomeSortType.INCOME_DATE;
             default -> IncomeSortType.INCOME_DATE;
         };
