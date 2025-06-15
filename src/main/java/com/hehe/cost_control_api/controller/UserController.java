@@ -23,9 +23,6 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<?> getMe() {
         Users user = userService.getFromContext();
-        if(user == null) {
-            return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "unauthorized request", null);
-        }
         return BaseResponseUtil.buildResponse(HttpStatus.OK, "me", UserResponse.of(user));
     }
 

@@ -2,12 +2,21 @@ package com.hehe.cost_control_api.service.impl;
 
 import com.hehe.cost_control_api.model.Category;
 import com.hehe.cost_control_api.model.Expense;
+import com.hehe.cost_control_api.model.Income;
 import com.hehe.cost_control_api.model.Users;
+import com.hehe.cost_control_api.model.enums.ExpenseSortType;
 import com.hehe.cost_control_api.model.enums.TypeCategory;
 import com.hehe.cost_control_api.repository.CategoryRepository;
 import com.hehe.cost_control_api.repository.ExpenseRepository;
+import com.hehe.cost_control_api.repository.specification.ExpenseSpecification;
+import com.hehe.cost_control_api.repository.specification.IncomeSpecification;
 import com.hehe.cost_control_api.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -43,5 +52,16 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .build();
 
         return expenseRepository.save(expense);
+    }
+
+    @Override
+    public Page<Expense> listExpense(Users user,ExpenseSortType sort, LocalDate from, LocalDate to, String categoryName, int page, int size,  boolean asc) {
+
+        Sort.Direction direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sort.getName()));
+
+        Specification<Expense> spec = ExpenseSpecification.filterBy(user, from, to, categoryName);
+
+        return  expenseRepository.findAll(spec, pageable);
     }
 }
