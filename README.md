@@ -118,3 +118,7 @@ Sertakan:
 
 Kami akan membantu sesegera mungkin 😊
 
+## THANKS
+> dont forget a cup of coffee today
+
+---
