@@ -16,11 +16,11 @@ project frontend nya ada di https://github.com/Mudien-UB/Cost-of-Kost
 
 1. clone repository
 ```bash
-    git clone https://github.com/Mudien-UB/cost-of-kost.git
+    git clone https://github.com/Mudien-UB/cost-of-kost-api.git
 ```
 2. masuk ke direktori
 ```bash
-  cd cost-of-kost 
+  cd cost-of-kost-api
 ```
 3. Salin dan Ubah Konfigurasi application.properties
 
