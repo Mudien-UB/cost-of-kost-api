@@ -1,6 +1,8 @@
 # Cost of Kost API
 
-Cost of Kost API adalah aplikasi backend yang dibuat dengan Spring Boot, bertujuan untuk mengelola data kos-kosan dan biaya sewanya. Aplikasi ini menggunakan pendekatan RESTful API dan dirancang untuk digunakan dalam sistem pengelolaan keuangan kost.
+EduSims adalah aplikasi web interaktif yang dirancang untuk membantu mahasiswa dan pencari kost dalam merencanakan pengeluaran bulanan secara edukatif, sederhana, dan menyenangkan.
+
+project frontend nya ada di https://github.com/Mudien-UB/Cost-of-Kost
 
 ## Teknologi yang Digunakan
  - Java 21
