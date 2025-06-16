@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hehe.cost_control_api.model.Income;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record IncomeResponse(
         String id,
@@ -13,7 +14,9 @@ public record IncomeResponse(
         String note,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate incomeDate
+        LocalDate incomeDate,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        LocalDateTime createTime
 ) {
 
     public static IncomeResponse of(Income income) {
@@ -26,7 +29,8 @@ public record IncomeResponse(
                 income.getSource(),
                 income.getAmount(),
                 income.getNote() == null ? null : income.getNote(),
-                income.getIncomeDate()
+                income.getIncomeDate(),
+                income.getCreateTime()
         );
     }
 
