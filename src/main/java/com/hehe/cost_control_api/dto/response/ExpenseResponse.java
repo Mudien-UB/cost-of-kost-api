@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hehe.cost_control_api.model.Expense;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record ExpenseResponse(
         String id,
@@ -12,7 +13,10 @@ public record ExpenseResponse(
         String note,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate expenseDate
+        LocalDate expenseDate,
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        LocalDateTime createTime
 ) {
 
     public static ExpenseResponse of(Expense expense) {
@@ -25,7 +29,8 @@ public record ExpenseResponse(
                 expense.getReason(),
                 expense.getAmount(),
                 expense.getNote() == null ? null : expense.getNote(),
-                expense.getExpenseDate()
+                expense.getExpenseDate(),
+                expense.getCreateTime()
         );
     }
 
