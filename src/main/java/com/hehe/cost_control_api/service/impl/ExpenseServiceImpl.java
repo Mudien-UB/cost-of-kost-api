@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +64,10 @@ public class ExpenseServiceImpl implements ExpenseService {
         Specification<Expense> spec = ExpenseSpecification.filterBy(user, from, to, categoryName);
 
         return  expenseRepository.findAll(spec, pageable);
+    }
+
+    @Override
+    public List<Category> getExpenseCategories(Users user) {
+        return expenseRepository.findDistinctExpenseCategoriesByUser(user);
     }
 }

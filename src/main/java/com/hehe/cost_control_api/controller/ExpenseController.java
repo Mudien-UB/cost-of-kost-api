@@ -1,7 +1,9 @@
 package com.hehe.cost_control_api.controller;
 
 import com.hehe.cost_control_api.dto.request.ExpenseRequest;
+import com.hehe.cost_control_api.dto.response.CategoryResponse;
 import com.hehe.cost_control_api.dto.response.ExpenseResponse;
+import com.hehe.cost_control_api.model.Category;
 import com.hehe.cost_control_api.model.Expense;
 import com.hehe.cost_control_api.model.Users;
 import com.hehe.cost_control_api.model.enums.ExpenseSortType;
@@ -19,6 +21,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -117,6 +123,24 @@ public class ExpenseController {
                     response.getTotalPages()
             );
         }
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<?> getExpenseCategory(){
+        Users user = userService.getFromContext();
+
+        if(user ==  null){
+            return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "unauthorized", null);
+        }
+        List<Category> categories = expenseService.getExpenseCategories(user);
+
+        if(categories == null || categories.isEmpty()) {
+            return BaseResponseUtil.buildResponse(HttpStatus.OK, "kosong", List.of());
+        }else{
+            return BaseResponseUtil.buildResponse(HttpStatus.OK, "list of categories retrivied", categories.stream().map(CategoryResponse::of).toList() );
+        }
+
+
     }
 
 
