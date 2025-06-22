@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/income")
 @CrossOrigin
+@Validated
 @RequiredArgsConstructor
 public class IncomeController {
 
@@ -35,7 +36,7 @@ public class IncomeController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addIncome(@Validated @RequestBody IncomeRequest incomeRequest) {
+    public ResponseEntity<?> addIncome(@RequestBody IncomeRequest incomeRequest) {
 
         Users user = userService.getFromContext();
 
