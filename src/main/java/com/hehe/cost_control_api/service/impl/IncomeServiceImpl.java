@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +60,10 @@ public class IncomeServiceImpl implements IncomeService {
         Specification<Income> spec = IncomeSpecification.filterBy(user, from, to, categoryName);
 
         return  incomeRepository.findAll(spec, pageable);
+    }
+
+    @Override
+    public List<Category> getIncomeCategories(Users user) {
+        return incomeRepository.findDistinctIncomeCategoriesByUser(user);
     }
 }

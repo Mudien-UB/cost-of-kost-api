@@ -1,8 +1,10 @@
 package com.hehe.cost_control_api.controller;
 
 import com.hehe.cost_control_api.dto.request.IncomeRequest;
+import com.hehe.cost_control_api.dto.response.CategoryResponse;
 import com.hehe.cost_control_api.dto.response.ExpenseResponse;
 import com.hehe.cost_control_api.dto.response.IncomeResponse;
+import com.hehe.cost_control_api.model.Category;
 import com.hehe.cost_control_api.model.Expense;
 import com.hehe.cost_control_api.model.Income;
 import com.hehe.cost_control_api.model.Users;
@@ -21,10 +23,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/income")
 @CrossOrigin
+@Validated
 @RequiredArgsConstructor
 public class IncomeController {
 
@@ -32,7 +36,7 @@ public class IncomeController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addIncome(@Validated @RequestBody IncomeRequest incomeRequest) {
+    public ResponseEntity<?> addIncome(@RequestBody IncomeRequest incomeRequest) {
 
         Users user = userService.getFromContext();
 
@@ -118,5 +122,22 @@ public class IncomeController {
         }
     }
 
+    @GetMapping("/categories")
+    public ResponseEntity<?> getCategories(){
+
+        Users user = userService.getFromContext();
+
+        if(user ==  null){
+            return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "unauthorized", null);
+        }
+        List<Category> categories = incomeService.getIncomeCategories(user);
+
+        if(categories == null || categories.isEmpty()) {
+            return BaseResponseUtil.buildResponse(HttpStatus.OK, "kosong", List.of());
+        }else{
+            return BaseResponseUtil.buildResponse(HttpStatus.OK, "list of categories retrivied", categories.stream().map(CategoryResponse::of).toList() );
+        }
+
+    }
 
 }
