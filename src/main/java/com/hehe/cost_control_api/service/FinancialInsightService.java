@@ -11,13 +11,13 @@ public interface FinancialInsightService {
 
     Double calculateTotalExpenseThisMonth(@NotNull Users user);
 
-//    Float percentageComparedToDailyAverageThisMonth(@NotNull Users user);
-//
+    Float percentageComparedToDailyAverageThisMonth(@NotNull Users user);
+
 //    Float percentageComparedToHealthyDailyBudget(@NotNull Users user);
 
     Float calculateFinancialHealthScore(@NotNull Users user);
 
-    Float calculateTodaySavingPercentage(@NotNull Users user);
+//    Float calculateTodaySavingPercentage(@NotNull Users user);
 
     String getSavingFeedback(Float savingPercent);
 }

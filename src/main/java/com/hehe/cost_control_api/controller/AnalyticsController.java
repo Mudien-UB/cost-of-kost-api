@@ -31,18 +31,16 @@ public class AnalyticsController {
 
         Double totalToday = financialInsightService.calculateTotalExpenseToday(user);
         Double totalMonth = financialInsightService.calculateTotalExpenseThisMonth(user);
-        Float percentMonth = financialInsightService.percentageExpenseThisMonth(user);
         Float healthScore = financialInsightService.calculateFinancialHealthScore(user);
-        Float savingPercent = financialInsightService.calculateTodaySavingPercentage(user);
+        Float dailyPercentageExpense = financialInsightService.percentageComparedToDailyAverageThisMonth(user);
 
-        String savingFeedback = financialInsightService.getSavingFeedback(savingPercent);
+        String savingFeedback = financialInsightService.getSavingFeedback(dailyPercentageExpense);
 
         FinancialInsightResponse response = new FinancialInsightResponse(
                 totalToday,
                 totalMonth,
-                percentMonth,
                 healthScore,
-                savingPercent,
+                dailyPercentageExpense,
                 savingFeedback
         );
 

@@ -50,24 +50,24 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
         return (float) Math.round(-diffPercentage);
     }
 
-//    @Override
-//    public Float percentageComparedToDailyAverageThisMonth(Users user) {
-//        double totalExpenseThisMonth = calculateTotalExpenseThisMonth(user);
-//
-//        Set<LocalDate> activeDates = user.getExpenseList().stream()
-//                .filter(e -> isInCurrentMonth(e.getExpenseDate()))
-//                .map(Expense::getExpenseDate)
-//                .collect(Collectors.toSet());
-//
-//        long activeDays = activeDates.size();
-//        if (activeDays == 0 || totalExpenseThisMonth == 0) return 0f;
-//
-//        double dailyAverage = totalExpenseThisMonth / activeDays;
-//        double todayExpense = calculateTotalExpenseToday(user);
-//        double percentage = (todayExpense / dailyAverage) * 100;
-//
-//        return (float) Math.round(percentage);
-//    }
+    @Override
+    public Float percentageComparedToDailyAverageThisMonth(Users user) {
+        double totalExpenseThisMonth = calculateTotalExpenseThisMonth(user);
+
+        Set<LocalDate> activeDates = user.getExpenseList().stream()
+                .filter(e -> isInCurrentMonth(e.getExpenseDate()))
+                .map(Expense::getExpenseDate)
+                .collect(Collectors.toSet());
+
+        long activeDays = activeDates.size();
+        if (activeDays == 0 || totalExpenseThisMonth == 0) return 0f;
+
+        double dailyAverage = totalExpenseThisMonth / activeDays;
+        double todayExpense = calculateTotalExpenseToday(user);
+        double percentage = (todayExpense / dailyAverage) * 100;
+
+        return (float) Math.round(percentage);
+    }
 //
 //    @Override
 //    public Float percentageComparedToHealthyDailyBudget(Users user) {
@@ -81,17 +81,17 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
 //        return (float) Math.round(percentage);
 //    }
 
-    @Override
-    public Float calculateTodaySavingPercentage(Users user) {
-        double incomeThisMonth = calculateTotalIncomeThisMonth(user);
-        double healthyBudgetMonthly = calculateHealthyBudgetLimit(incomeThisMonth);
-        double healthyDailyBudget = healthyBudgetMonthly / DAYS_IN_MONTH;
-
-        double todayExpense = calculateTotalExpenseToday(user);
-        double savingPercent = 100 - ((todayExpense / healthyDailyBudget) * 100);
-
-        return (float) Math.round(savingPercent);
-    }
+//    @Override
+//    public Float calculateTodaySavingPercentage(Users user) {
+//        double incomeThisMonth = calculateTotalIncomeThisMonth(user);
+//        double healthyBudgetMonthly = calculateHealthyBudgetLimit(incomeThisMonth);
+//        double healthyDailyBudget = healthyBudgetMonthly / DAYS_IN_MONTH;
+//
+//        double todayExpense = calculateTotalExpenseToday(user);
+//        double savingPercent = 100 - ((todayExpense / healthyDailyBudget) * 100);
+//
+//        return (float) Math.round(savingPercent);
+//    }
 
     @Override
     public Float calculateFinancialHealthScore(Users user) {
