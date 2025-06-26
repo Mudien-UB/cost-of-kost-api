@@ -4,7 +4,7 @@ public record FinancialInsightResponse(
         Double totalExpenseToday,
         Double totalExpenseThisMonth,
         Float financialHealthScore,
-        Float percentageComparedToDailyAverageThisMonth,
+        Float percentageThisMonth,
         String savingFeedback
 ) {
 }
