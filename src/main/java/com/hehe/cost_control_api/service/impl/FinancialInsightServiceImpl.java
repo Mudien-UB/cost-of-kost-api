@@ -46,28 +46,29 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
         double totalExpense = calculateTotalExpenseThisMonth(user);
         double healthyBudget = calculateHealthyBudgetLimit(incomeThisMonth);
 
-        double diffPercentage = ((totalExpense / healthyBudget) * 100) - 100;
-        return (float) Math.round(-diffPercentage);
+        float raw = (float) ((1 - (totalExpense / healthyBudget)) * 100);
+        return Math.max(0f, Math.min(100f, Math.round(raw)));
     }
 
-    @Override
-    public Float percentageComparedToDailyAverageThisMonth(Users user) {
-        double totalExpenseThisMonth = calculateTotalExpenseThisMonth(user);
 
-        Set<LocalDate> activeDates = user.getExpenseList().stream()
-                .filter(e -> isInCurrentMonth(e.getExpenseDate()))
-                .map(Expense::getExpenseDate)
-                .collect(Collectors.toSet());
-
-        long activeDays = activeDates.size();
-        if (activeDays == 0 || totalExpenseThisMonth == 0) return 0f;
-
-        double dailyAverage = totalExpenseThisMonth / activeDays;
-        double todayExpense = calculateTotalExpenseToday(user);
-        double percentage = (todayExpense / dailyAverage) * 100;
-
-        return (float) Math.round(percentage);
-    }
+//    @Override
+//    public Float percentageComparedToDailyAverageThisMonth(Users user) {
+//        double totalExpenseThisMonth = calculateTotalExpenseThisMonth(user);
+//
+//        Set<LocalDate> activeDates = user.getExpenseList().stream()
+//                .filter(e -> isInCurrentMonth(e.getExpenseDate()))
+//                .map(Expense::getExpenseDate)
+//                .collect(Collectors.toSet());
+//
+//        long activeDays = activeDates.size();
+//        if (activeDays == 0 || totalExpenseThisMonth == 0) return 0f;
+//
+//        double dailyAverage = totalExpenseThisMonth / activeDays;
+//        double todayExpense = calculateTotalExpenseToday(user);
+//        double percentage = (todayExpense / dailyAverage) * 100;
+//
+//        return (float) Math.round(percentage);
+//    }
 //
 //    @Override
 //    public Float percentageComparedToHealthyDailyBudget(Users user) {

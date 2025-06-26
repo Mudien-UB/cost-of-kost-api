@@ -32,7 +32,7 @@ public class AnalyticsController {
         Double totalToday = financialInsightService.calculateTotalExpenseToday(user);
         Double totalMonth = financialInsightService.calculateTotalExpenseThisMonth(user);
         Float healthScore = financialInsightService.calculateFinancialHealthScore(user);
-        Float dailyPercentageExpense = financialInsightService.percentageComparedToDailyAverageThisMonth(user);
+        Float dailyPercentageExpense = financialInsightService.percentageExpenseThisMonth(user);
 
         String savingFeedback = financialInsightService.getSavingFeedback(dailyPercentageExpense);
 
