@@ -9,6 +9,7 @@ import com.hehe.cost_control_api.repository.CategoryRepository;
 import com.hehe.cost_control_api.repository.IncomeRepository;
 import com.hehe.cost_control_api.repository.specification.IncomeSpecification;
 import com.hehe.cost_control_api.service.IncomeService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -65,5 +67,19 @@ public class IncomeServiceImpl implements IncomeService {
     @Override
     public List<Category> getIncomeCategories(Users user) {
         return incomeRepository.findDistinctIncomeCategoriesByUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteIncome(Users user, String incomeId) {
+        Long id = Long.valueOf(incomeId);
+
+        Income income = user.getIncomeList().stream()
+                .filter(e -> e.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Expense not found"));
+
+        user.getIncomeList().remove(income);
+        incomeRepository.delete(income);
     }
 }

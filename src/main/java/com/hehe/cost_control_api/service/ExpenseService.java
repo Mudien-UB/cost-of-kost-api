@@ -18,4 +18,6 @@ public interface ExpenseService {
 
     List<Category> getExpenseCategories(@NotNull Users user);
 
+    void deleteExpense(@NotNull Users user, @NotNull String expenseId);
+
 }

@@ -1,8 +1,11 @@
 package com.hehe.cost_control_api.controller;
 
+import com.hehe.cost_control_api.dto.response.FeedbackMessageResponse;
 import com.hehe.cost_control_api.dto.response.FinancialInsightResponse;
 import com.hehe.cost_control_api.dto.response.UserResponse;
+import com.hehe.cost_control_api.model.FeedbackMessage;
 import com.hehe.cost_control_api.model.Users;
+import com.hehe.cost_control_api.service.FeedbackMessageService;
 import com.hehe.cost_control_api.service.FinancialInsightService;
 import com.hehe.cost_control_api.service.UserService;
 import com.hehe.cost_control_api.util.BaseResponseUtil;
@@ -24,6 +27,7 @@ public class AnalyticsController {
 
     private final UserService userService;
     private final FinancialInsightService financialInsightService;
+    private final FeedbackMessageService feedbackMessageService;
 
     @GetMapping("/insight")
     public ResponseEntity<?> getInsight() {
@@ -31,19 +35,17 @@ public class AnalyticsController {
 
         Double totalToday = financialInsightService.calculateTotalExpenseToday(user);
         Double totalMonth = financialInsightService.calculateTotalExpenseThisMonth(user);
-        Float percentMonth = financialInsightService.percentageExpenseThisMonth(user);
         Float healthScore = financialInsightService.calculateFinancialHealthScore(user);
-        Float savingPercent = financialInsightService.calculateTodaySavingPercentage(user);
+        Float percentageMonth = financialInsightService.percentageExpenseThisMonth(user);
 
-        String savingFeedback = financialInsightService.getSavingFeedback(savingPercent);
+        FeedbackMessage feedbackMessage = (healthScore == null) ? feedbackMessageService.generateDefaultFeedbackMessage() :  feedbackMessageService.generateFeedbackMessage(percentageMonth);
 
         FinancialInsightResponse response = new FinancialInsightResponse(
                 totalToday,
                 totalMonth,
-                percentMonth,
                 healthScore,
-                savingPercent,
-                savingFeedback
+                percentageMonth,
+                FeedbackMessageResponse.of(feedbackMessage)
         );
 
         return BaseResponseUtil.buildResponse(HttpStatus.OK, "insight", response);

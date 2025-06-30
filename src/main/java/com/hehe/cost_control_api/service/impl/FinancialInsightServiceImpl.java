@@ -1,13 +1,17 @@
 package com.hehe.cost_control_api.service.impl;
 
 import com.hehe.cost_control_api.model.Expense;
+import com.hehe.cost_control_api.model.FeedbackMessage;
 import com.hehe.cost_control_api.model.Income;
 import com.hehe.cost_control_api.model.Users;
+import com.hehe.cost_control_api.repository.FeedbackMessageRepository;
 import com.hehe.cost_control_api.service.FinancialInsightService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,9 +50,10 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
         double totalExpense = calculateTotalExpenseThisMonth(user);
         double healthyBudget = calculateHealthyBudgetLimit(incomeThisMonth);
 
-        double diffPercentage = ((totalExpense / healthyBudget) * 100) - 100;
-        return (float) Math.round(-diffPercentage);
+        float raw = (float) ((1 - (totalExpense / healthyBudget)) * 100);
+        return Math.max(0f, Math.min(100f, Math.round(raw)));
     }
+
 
 //    @Override
 //    public Float percentageComparedToDailyAverageThisMonth(Users user) {
@@ -81,17 +86,17 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
 //        return (float) Math.round(percentage);
 //    }
 
-    @Override
-    public Float calculateTodaySavingPercentage(Users user) {
-        double incomeThisMonth = calculateTotalIncomeThisMonth(user);
-        double healthyBudgetMonthly = calculateHealthyBudgetLimit(incomeThisMonth);
-        double healthyDailyBudget = healthyBudgetMonthly / DAYS_IN_MONTH;
-
-        double todayExpense = calculateTotalExpenseToday(user);
-        double savingPercent = 100 - ((todayExpense / healthyDailyBudget) * 100);
-
-        return (float) Math.round(savingPercent);
-    }
+//    @Override
+//    public Float calculateTodaySavingPercentage(Users user) {
+//        double incomeThisMonth = calculateTotalIncomeThisMonth(user);
+//        double healthyBudgetMonthly = calculateHealthyBudgetLimit(incomeThisMonth);
+//        double healthyDailyBudget = healthyBudgetMonthly / DAYS_IN_MONTH;
+//
+//        double todayExpense = calculateTotalExpenseToday(user);
+//        double savingPercent = 100 - ((todayExpense / healthyDailyBudget) * 100);
+//
+//        return (float) Math.round(savingPercent);
+//    }
 
     @Override
     public Float calculateFinancialHealthScore(Users user) {
@@ -123,13 +128,6 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
                             scoreOverbudget * 0.20
             );
         }
-    }
-
-    @Override
-    public String getSavingFeedback(Float savingPercent) {
-        if (savingPercent >= 30) return "🎯 Anda dalam zona aman";
-        else if (savingPercent >= 10) return "⚠️ Masih aman, tapi hati-hati";
-        else return "🚨 Pengeluaran melebihi batas sehat";
     }
 
     // ====================== UTIL & PRIVATE =========================
