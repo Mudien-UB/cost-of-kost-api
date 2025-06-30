@@ -140,4 +140,17 @@ public class IncomeController {
 
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteIncome(@PathVariable String id) {
+        Users user = userService.getFromContext();
+        if(user ==  null){
+            return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "unauthorized", null);
+        }
+        try {
+            incomeService.deleteIncome(user, id);
+        }catch (Exception e) {
+            return BaseResponseUtil.buildResponse(HttpStatus.BAD_REQUEST, "bad request", null);
+        }
+        return BaseResponseUtil.buildResponse(HttpStatus.OK, "success", null);
+    }
 }

@@ -1,13 +1,17 @@
 package com.hehe.cost_control_api.service.impl;
 
 import com.hehe.cost_control_api.model.Expense;
+import com.hehe.cost_control_api.model.FeedbackMessage;
 import com.hehe.cost_control_api.model.Income;
 import com.hehe.cost_control_api.model.Users;
+import com.hehe.cost_control_api.repository.FeedbackMessageRepository;
 import com.hehe.cost_control_api.service.FinancialInsightService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -124,13 +128,6 @@ public class FinancialInsightServiceImpl implements FinancialInsightService {
                             scoreOverbudget * 0.20
             );
         }
-    }
-
-    @Override
-    public String getSavingFeedback(Float savingPercent) {
-        if (savingPercent >= 30) return "🎯 Anda dalam zona aman";
-        else if (savingPercent >= 10) return "⚠️ Masih aman, tapi hati-hati";
-        else return "🚨 Pengeluaran melebihi batas sehat";
     }
 
     // ====================== UTIL & PRIVATE =========================

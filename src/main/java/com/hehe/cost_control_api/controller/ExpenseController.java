@@ -140,5 +140,19 @@ public class ExpenseController {
 
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteExpense(@PathVariable String id) {
+        Users user = userService.getFromContext();
+        if(user ==  null){
+            return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "unauthorized", null);
+        }
+        try {
+            expenseService.deleteExpense(user, id);
+        }catch (Exception e) {
+            return BaseResponseUtil.buildResponse(HttpStatus.BAD_REQUEST, "bad request", null);
+        }
+        return BaseResponseUtil.buildResponse(HttpStatus.OK, "success", null);
+    }
+
 
 }

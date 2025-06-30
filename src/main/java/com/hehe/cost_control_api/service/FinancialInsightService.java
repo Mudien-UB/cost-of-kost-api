@@ -19,5 +19,4 @@ public interface FinancialInsightService {
 
 //    Float calculateTodaySavingPercentage(@NotNull Users user);
 
-    String getSavingFeedback(Float savingPercent);
 }

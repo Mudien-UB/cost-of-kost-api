@@ -18,4 +18,6 @@ public interface IncomeService {
 
     List<Category> getIncomeCategories(@NotNull Users user);
 
+    void deleteIncome(@NotNull Users user, @NotNull String incomeId);
+
 }

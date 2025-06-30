@@ -5,6 +5,6 @@ public record FinancialInsightResponse(
         Double totalExpenseThisMonth,
         Float financialHealthScore,
         Float percentageThisMonth,
-        String savingFeedback
+        FeedbackMessageResponse feedbackMessage
 ) {
 }
