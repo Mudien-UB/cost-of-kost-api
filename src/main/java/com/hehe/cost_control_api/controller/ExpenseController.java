@@ -3,15 +3,16 @@ package com.hehe.cost_control_api.controller;
 import com.hehe.cost_control_api.dto.request.ExpenseRequest;
 import com.hehe.cost_control_api.dto.response.CategoryResponse;
 import com.hehe.cost_control_api.dto.response.ExpenseResponse;
+import com.hehe.cost_control_api.dto.response.PeriodGranularity;
 import com.hehe.cost_control_api.model.Category;
 import com.hehe.cost_control_api.model.Expense;
 import com.hehe.cost_control_api.model.Users;
 import com.hehe.cost_control_api.model.enums.ExpenseSortType;
+import com.hehe.cost_control_api.model.enums.Granularity;
 import com.hehe.cost_control_api.service.ExpenseService;
 import com.hehe.cost_control_api.service.UserService;
 import com.hehe.cost_control_api.util.BaseResponseUtil;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -88,7 +89,7 @@ public class ExpenseController {
             default -> ExpenseSortType.EXPENSE_DATE;
         };
 
-        Page<Expense> response = expenseService.listExpense(
+        Page<Expense> response = expenseService.listExpensePagination(
                 user,
                 sortType,
                 from,
@@ -153,6 +154,8 @@ public class ExpenseController {
         }
         return BaseResponseUtil.buildResponse(HttpStatus.OK, "success", null);
     }
+
+
 
 
 }

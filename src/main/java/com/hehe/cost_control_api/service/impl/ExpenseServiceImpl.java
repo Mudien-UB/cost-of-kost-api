@@ -1,14 +1,17 @@
 package com.hehe.cost_control_api.service.impl;
 
+import com.hehe.cost_control_api.exception.InvalidGranularityException;
 import com.hehe.cost_control_api.model.Category;
 import com.hehe.cost_control_api.model.Expense;
 import com.hehe.cost_control_api.model.Users;
 import com.hehe.cost_control_api.model.enums.ExpenseSortType;
+import com.hehe.cost_control_api.model.enums.Granularity;
 import com.hehe.cost_control_api.model.enums.TypeCategory;
 import com.hehe.cost_control_api.repository.CategoryRepository;
 import com.hehe.cost_control_api.repository.ExpenseRepository;
 import com.hehe.cost_control_api.repository.specification.ExpenseSpecification;
 import com.hehe.cost_control_api.service.ExpenseService;
+import com.hehe.cost_control_api.util.GranularityValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +25,6 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +58,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public Page<Expense> listExpense(Users user,ExpenseSortType sort, LocalDate from, LocalDate to, String categoryName, int page, int size,  boolean asc) {
+    public Page<Expense> listExpensePagination(Users user, ExpenseSortType sort, LocalDate from, LocalDate to, String categoryName, int page, int size, boolean asc) {
 
         Sort.Direction direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sort.getName()));
@@ -84,5 +86,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         user.getExpenseList().remove(expense);
         expenseRepository.delete(expense);
     }
+
 
 }
