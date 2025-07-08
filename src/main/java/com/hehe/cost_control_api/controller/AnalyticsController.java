@@ -1,5 +1,6 @@
 package com.hehe.cost_control_api.controller;
 
+import com.hehe.cost_control_api.dto.response.ExpenseCategoryTotalResponse;
 import com.hehe.cost_control_api.dto.response.FeedbackMessageResponse;
 import com.hehe.cost_control_api.dto.response.FinancialInsightResponse;
 import com.hehe.cost_control_api.dto.response.PeriodGranularity;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController()
@@ -77,13 +79,34 @@ public class AnalyticsController {
         List<Object[]> result = analyticsService.getExpensesOnRangeWithGranularity(user, from, to, granularity);
         if(result == null || result.isEmpty()) {
             return BaseResponseUtil.buildResponse(HttpStatus.OK, "empty", List.of());
+        }else{
+            return BaseResponseUtil.buildResponse(
+                    HttpStatus.OK,
+                    "data retrivied on granularity " + granularity.toString(),
+                    result.stream().map(PeriodGranularity::of).toList()
+            );
         }
+    }
 
-        return BaseResponseUtil.buildResponse(
-                HttpStatus.OK,
-                "data retrivied on granularity " + granularity.toString(),
-                result.stream().map(PeriodGranularity::of).toList()
-        );
+    @GetMapping("/totalExpensePerCategory")
+    public ResponseEntity<?> getTotalExpensePerCategory(
+            @RequestParam(required = false)
+            YearMonth monthAt
+    ){
+        Users user = userService.getFromContext();
+        if(user ==  null){
+            return BaseResponseUtil.buildResponse(HttpStatus.UNAUTHORIZED, "unauthorized", null);
+        }
+        List<Object[]> result = analyticsService.getExpensesCategoryTotal(user, monthAt);
+        if(result == null || result.isEmpty()) {
+            return BaseResponseUtil.buildResponse(HttpStatus.OK, "empty", List.of());
+        }else {
+            return BaseResponseUtil.buildResponse(
+                    HttpStatus.OK,
+                    "data retrivied on month " + monthAt.toString(),
+                    result.stream().map(ExpenseCategoryTotalResponse::of).toList()
+            );
+        }
     }
 
 

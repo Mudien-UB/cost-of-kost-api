@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,5 +68,29 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
             @Param("from") LocalDate from,
             @Param("to") LocalDate to
     );
+
+    @Query("""
+    SELECT e.category.name, SUM(e.amount)
+    FROM Expense e
+    WHERE e.user = :user
+    GROUP BY e.category.name
+    """)
+    List<Object[]> getTotalExpenseByCategoryAllTime(
+            @Param("user") Users user
+    );
+
+    @Query("""
+    SELECT e.category.name, SUM(e.amount)
+    FROM Expense e
+    WHERE e.user = :user
+      AND e.expenseDate BETWEEN :start AND :end
+    GROUP BY e.category.name
+    """)
+    List<Object[]> getTotalExpenseByCategoryOnMonth(
+            @Param("user") Users user,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end
+    );
+
 
 }
