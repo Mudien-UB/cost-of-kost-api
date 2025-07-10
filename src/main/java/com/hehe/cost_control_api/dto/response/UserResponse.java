@@ -4,7 +4,7 @@ import com.hehe.cost_control_api.model.Users;
 
 public record UserResponse(
         String userId,
-        String fullName,
+        String fullname,
         String username,
         String email
 ) {
