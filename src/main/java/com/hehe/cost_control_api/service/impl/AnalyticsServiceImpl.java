@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -32,5 +33,14 @@ public class AnalyticsServiceImpl implements AnalyticsService {
             case WEEKLY -> expenseRepository.groupByWeek(user.getId(), from, to);
             case MONTHLY -> expenseRepository.groupByMonth(user.getId(), from, to);
         };
+    }
+
+    @Override
+    public List<Object[]> getExpensesCategoryTotal(Users user, YearMonth monthAt) {
+        if(monthAt != null){
+            return expenseRepository.getTotalExpenseByCategoryOnMonth(user, monthAt.atDay(1), monthAt.atEndOfMonth());
+        }else{
+            return expenseRepository.getTotalExpenseByCategoryAllTime(user);
+        }
     }
 }
