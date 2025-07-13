@@ -17,7 +17,7 @@ public class UserPrincipalService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserPrincipal(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username)));
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        return new UserPrincipal(userRepository.findByEmailOrUsername(usernameOrEmail,usernameOrEmail).orElseThrow(() -> new UsernameNotFoundException(usernameOrEmail)));
     }
 }

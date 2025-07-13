@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public interface AuthService {
 
-    String login(@NotNull String username,@NotNull String password);
+    String login(@NotNull String usernameOrEmail, @NotNull String password);
 
 }
