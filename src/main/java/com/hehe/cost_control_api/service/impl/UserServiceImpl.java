@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Validated
@@ -47,5 +49,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isEmailAlreadyExist(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public Users updateUser(Users users, String email, String username, String fullName) {
+
+        if(email != null) {
+            users.setEmail(email);
+        }
+        if(username != null) {
+            users.setUsername(username);
+        }
+        if(fullName != null) {
+            users.setFullName(fullName);
+        }
+        return userRepository.save(users);
+    }
+
+    @Override
+    public Users getByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+    }
+
+    @Override
+    public Users getByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+    }
+
+    @Override
+    public Users getById(String id) {
+        return userRepository.findById(UUID.fromString(id)).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
     }
 }

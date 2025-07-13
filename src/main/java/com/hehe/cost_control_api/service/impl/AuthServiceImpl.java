@@ -20,10 +20,10 @@ public class AuthServiceImpl implements AuthService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public String login(String username, String password) {
+    public String login(String usernameOrEmail, String password) {
 
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                new UsernamePasswordAuthenticationToken(usernameOrEmail, password)
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
         UserDetails userDetails = (UserDetails) auth.getPrincipal();

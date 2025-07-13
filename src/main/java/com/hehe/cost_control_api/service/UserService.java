@@ -9,6 +9,13 @@ public interface UserService {
 
     Users getFromContext();
 
+    Users getByEmail(String email);
+    Users getByUsername(String username);
+    Users getById(String id);
+
     boolean isUsernameAlreadyExist(@NotNull String username);
     boolean isEmailAlreadyExist(@NotNull String email);
+
+    Users updateUser(@NotNull Users users, String email, String username, String fullName);
+
 }
